@@ -1,17 +1,18 @@
-import { shuffledDeck } from "./deck";
+import Deck from "./deck";
+import Card from "./card";
 import { betPrompt } from "./utils";
 
-const cardDeck = shuffledDeck;
+let cardDeck = new Deck();
 let pFund = 100;
 let pBet = 0;
 let pPot = 0;
-let deckPos = cardDeck[0];
+let deckPos: number = 0;
 
-//console.log("cardDeck:", cardDeck);
+console.log("cardDeck:", cardDeck);
 
-// function playerHand(deckPos) {
-//   return (pHand = deckPos);
-// }
+function playerHand(deckPos) {
+  return (pHand = deckPos);
+}
 
 function app() {
   console.log(`Player's fund: ${pFund}$`);
