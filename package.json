@@ -1,9 +1,9 @@
 {
   "name": "typescript-blackjack",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
-    "dev": "tsc && node app.js"
+    "dev": "tsc && node dist/app.js"
   },
   "keywords": [],
   "author": "",

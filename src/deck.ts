@@ -20,6 +20,6 @@ const Colors: string[] = ["black", "red"];
 const Types: string[] = ["spade", "club", "diamond", "heart"];
 
 let deck1: object[] = deckCreation<Card>(Names, Types, Colors, Card);
-console.log("deck1: ", deck1);
+//console.log("deck1: ", deck1);
 export const shuffledDeck = shuffleArray(deck1);
 //console.log("Shuffled deck:", shuffledDeck);
