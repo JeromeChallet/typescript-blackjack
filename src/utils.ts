@@ -1,3 +1,6 @@
+import promptSync from "prompt-sync";
+const prompt = promptSync();
+
 export function deckCreation<T>(
   name: string[],
   type: string[],
@@ -30,4 +33,25 @@ export function shuffleArray(myDeck: object[]): object[] {
     [myDeck[i], myDeck[j]] = [myDeck[j], myDeck[i]];
   }
   return myDeck;
+}
+
+// export function betPrompt(pFund: number): number {
+//   let pPrompt: number = 0;
+//   do {
+//     pPrompt = Number(prompt("Enter your bet: "));
+//     if (pPrompt < 0 || pPrompt > pFund || isNaN(pPrompt)) {
+//       console.log("please enter a valid amount");
+//     }
+//   } while (pPrompt < -1 || pPrompt > pFund || isNaN(pPrompt));
+//   return pPrompt;
+// }
+
+export function betPrompt(pFund: number): number {
+  while (true) {
+    const pPrompt = Number(prompt("Enter your bet: "));
+    if (pPrompt >= 0 && pPrompt <= pFund && !isNaN(pPrompt)) {
+      return pPrompt; // Exit the loop once a valid input is entered
+    }
+    console.log("Please enter a valid amount");
+  }
 }
