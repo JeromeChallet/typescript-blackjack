@@ -2,7 +2,7 @@ import { shuffleArray, deckCreation } from "./utils";
 import Card from "./card";
 
 export default class Deck {
-  deckPos: number = 0;
+  //deckPos: number = 0;
   static Names: string[] = [
     "ace",
     "two",
@@ -20,9 +20,14 @@ export default class Deck {
   ];
   static Colors: string[] = ["black", "red"];
   static Types: string[] = ["spade", "club", "diamond", "heart"];
-  Deck: object[];
-  constructor() {
-    this.Deck = shuffleArray(
+  //Deck: object[];
+  // constructor() {
+  //   this.Deck = shuffleArray(
+  //     deckCreation<Card>(Deck.Names, Deck.Types, Deck.Colors, Card)
+  //   );
+  // }
+  deckCreation() {
+    return shuffleArray(
       deckCreation<Card>(Deck.Names, Deck.Types, Deck.Colors, Card)
     );
   }
