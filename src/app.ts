@@ -1,6 +1,8 @@
 import Deck from "./deck";
 import Card from "./card";
-import { betPrompt } from "./utils";
+import promptSync from "prompt-sync";
+const prompt = promptSync();
+import { betPrompt, dealHand, hit, handValue } from "./utils";
 
 let cardDeck = new Deck();
 let deckPos: number = 0;
@@ -9,30 +11,14 @@ let pBet = 0;
 let pPot = 0;
 let pHand: Hand;
 let dHand: Hand;
+let pHandValue: number = 0;
+let dHandValue: number = 0;
+let handResult: DealCards;
 //console.log("cardDeck:", cardDeck);
-const deck1: object[] = cardDeck.deckCreation();
+const deck1: Card[] = cardDeck.deckCreation();
 console.log("deck1:", deck1);
 //deck1[deckPos];
-console.log("deckPos A:", deck1[deckPos]);
-
-function dealPlayerHand(): Hand {
-  pHand = [deck1[deckPos], deck1[deckPos + 1]];
-  deckPos = +2;
-  //console.log("deckPos B:", deck1[deckPos]);
-  return pHand;
-}
-function dealDealerHand(): Hand {
-  dHand = [deck1[deckPos], deck1[deckPos + 1]];
-  deckPos = +2;
-  //console.log("deckPos C:", deck1[deckPos]);
-  return dHand;
-}
-
-// function hit(curHand: object[]): Hand {
-//   curHand.push(deck1[deckPos]);
-//   deckPos++;
-//   return curHand;
-// }
+//console.log("deckPos A:", deck1[deckPos]);
 
 function app() {
   console.log(`Player's fund: ${pFund}$`);
@@ -42,11 +28,38 @@ function app() {
     pPot += pBet;
     console.log(`Player's fund: ${pFund}$`);
     console.log(`Player's bet: ${pPot}$`);
-    dealPlayerHand();
-    console.log("Player's hand: ", pHand);
-    dealDealerHand();
+    /////////////////FIRST DEAL PLAYER////////////////
+    handResult = dealHand(deck1, deckPos);
+    pHand = handResult.hand;
+    //////
+    pHandValue = handValue(pHand);
+    /////
+    deckPos = handResult.deckPos;
+    console.log(`Player's hand: ${pHand} (Total:  ${pHandValue})`);
+    /////////////////FIRST DEAL DEALER////////////////
+    handResult = dealHand(deck1, deckPos);
+    dHand = handResult.hand;
+    //dHandValue = handValue(dHand);
+    deckPos = handResult.deckPos;
     console.log("Dealer's hand: ", dHand);
-    //console.log("Dealer's hand: ", dHand);
+    /////////////////ROUNDS////////////////
+    while (true) {
+      const pPrompt = prompt("hit or stand?: ");
+      if (pPrompt === "hit") {
+        handResult = hit(deck1, deckPos, pHand);
+        pHand = handResult.hand;
+        deckPos = handResult.deckPos;
+        console.log(`Player's hand: ${pHand} (Total:  ${pHandValue})`);
+      } else if (
+        pPrompt === "stand" ||
+        pHandValue === 21 ||
+        dHandValue === 21
+      ) {
+        return;
+      } else {
+        console.log('please type "hit" or "stand" only');
+      }
+    }
   } while (pFund > -1);
 
   return;

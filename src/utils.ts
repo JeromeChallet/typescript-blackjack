@@ -25,7 +25,7 @@ export function deckCreation<T>(
   return deck1;
 }
 
-export function shuffleArray(myDeck: object[]): object[] {
+export function shuffleArray(myDeck: Card[]): Card[] {
   for (let i = myDeck.length - 1; i > 0; i--) {
     // Generate a random index from 0 to i
     const j = Math.floor(Math.random() * (i + 1));
@@ -54,4 +54,26 @@ export function betPrompt(pFund: number): number {
     }
     console.log("Please enter a valid amount");
   }
+}
+
+export function dealHand(deck1: Card[], deckPos: number): DealCards {
+  let hand: Hand = [deck1[deckPos], deck1[deckPos + 1]];
+  deckPos += 2;
+  return { hand, deckPos };
+}
+
+export function hit(deck1: Card[], deckPos: number, curHand: Hand): DealCards {
+  let hand: Hand = curHand;
+  curHand.push(deck1[deckPos]);
+  deckPos++;
+  return { hand, deckPos };
+}
+
+export function handValue(curHand: Hand): number {
+  console.log("handValue inside: ", curHand);
+  let curHandValue: number = 0;
+  for (const card of curHand) {
+    curHandValue += card.value;
+  }
+  return curHandValue;
 }
