@@ -70,10 +70,13 @@ export function hit(deck1: Card[], deckPos: number, curHand: Hand): DealCards {
 }
 
 export function handValue(curHand: Hand): number {
-  console.log("handValue inside: ", curHand);
   let curHandValue: number = 0;
   for (const card of curHand) {
     curHandValue += card.value;
   }
   return curHandValue;
+}
+
+export function showHands(): void {
+  return console.log();
 }

@@ -35,13 +35,23 @@ function app() {
     pHandValue = handValue(pHand);
     /////
     deckPos = handResult.deckPos;
-    console.log(`Player's hand: ${pHand} (Total:  ${pHandValue})`);
+    console.log(
+      "Player's hand: " +
+        pHand[0].name +
+        pHand[0].type +
+        " " +
+        pHand[1].name +
+        pHand[1].type,
+      `(Total: ${pHandValue})`
+    );
     /////////////////FIRST DEAL DEALER////////////////
     handResult = dealHand(deck1, deckPos);
     dHand = handResult.hand;
     //dHandValue = handValue(dHand);
     deckPos = handResult.deckPos;
-    console.log("Dealer's hand: ", dHand);
+    console.log(
+      "Dealer's hand: " + pHand[0].name + pHand[0].type + " " + "[hidden]"
+    );
     /////////////////ROUNDS////////////////
     while (true) {
       const pPrompt = prompt("hit or stand?: ");
@@ -49,7 +59,15 @@ function app() {
         handResult = hit(deck1, deckPos, pHand);
         pHand = handResult.hand;
         deckPos = handResult.deckPos;
-        console.log(`Player's hand: ${pHand} (Total:  ${pHandValue})`);
+        console.log(
+          "Player's hand: " +
+            pHand[0].name +
+            pHand[0].type +
+            " " +
+            pHand[1].name +
+            pHand[1].type,
+          `(Total: ${pHandValue})`
+        );
       } else if (
         pPrompt === "stand" ||
         pHandValue === 21 ||
