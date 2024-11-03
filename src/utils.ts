@@ -77,6 +77,28 @@ export function handValue(curHand: Hand): number {
   return curHandValue;
 }
 
-export function showHands(): void {
-  return console.log();
+export function showHands(pHand: Hand, dHand: Hand, stand?: string): void {
+  let pHandValue: number = 0;
+  let dHandValue: number = 0;
+  let showPlayerHand: string = "Player's hand: ";
+  let showDealerHand: string = "Dealer's hand: ";
+
+  for (const card of pHand) {
+    pHandValue += card.value;
+    showPlayerHand += card.name + card.type + " ";
+  }
+  showPlayerHand += `(Total: ${pHandValue})\n`;
+
+  for (const card of dHand) {
+    if (stand === "stand") {
+      showDealerHand += card.name + card.type + " ";
+      dHandValue += card.value;
+    } else {
+      showDealerHand = dHand[0].name + dHand[0].type + "[hidden]";
+      dHandValue = dHand[0].value;
+    }
+  }
+  showDealerHand += `(Total: ${dHandValue})`;
+
+  return console.log(`${showPlayerHand}${showDealerHand}`);
 }

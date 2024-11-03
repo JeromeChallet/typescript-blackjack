@@ -2,7 +2,7 @@ import Deck from "./deck";
 import Card from "./card";
 import promptSync from "prompt-sync";
 const prompt = promptSync();
-import { betPrompt, dealHand, hit, handValue } from "./utils";
+import { betPrompt, dealHand, hit, handValue, showHands } from "./utils";
 
 let cardDeck = new Deck();
 let deckPos: number = 0;
@@ -31,27 +31,14 @@ function app() {
     /////////////////FIRST DEAL PLAYER////////////////
     handResult = dealHand(deck1, deckPos);
     pHand = handResult.hand;
-    //////
-    pHandValue = handValue(pHand);
-    /////
+    //pHandValue = handValue(pHand);
     deckPos = handResult.deckPos;
-    console.log(
-      "Player's hand: " +
-        pHand[0].name +
-        pHand[0].type +
-        " " +
-        pHand[1].name +
-        pHand[1].type,
-      `(Total: ${pHandValue})`
-    );
     /////////////////FIRST DEAL DEALER////////////////
     handResult = dealHand(deck1, deckPos);
     dHand = handResult.hand;
     //dHandValue = handValue(dHand);
     deckPos = handResult.deckPos;
-    console.log(
-      "Dealer's hand: " + pHand[0].name + pHand[0].type + " " + "[hidden]"
-    );
+    showHands(pHand, dHand);
     /////////////////ROUNDS////////////////
     while (true) {
       const pPrompt = prompt("hit or stand?: ");
@@ -59,20 +46,13 @@ function app() {
         handResult = hit(deck1, deckPos, pHand);
         pHand = handResult.hand;
         deckPos = handResult.deckPos;
-        console.log(
-          "Player's hand: " +
-            pHand[0].name +
-            pHand[0].type +
-            " " +
-            pHand[1].name +
-            pHand[1].type,
-          `(Total: ${pHandValue})`
-        );
+        showHands(pHand, dHand, "hit");
       } else if (
         pPrompt === "stand" ||
         pHandValue === 21 ||
         dHandValue === 21
       ) {
+        showHands(pHand, dHand, "stand");
         return;
       } else {
         console.log('please type "hit" or "stand" only');
