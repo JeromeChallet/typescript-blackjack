@@ -46,13 +46,20 @@ export function shuffleArray(myDeck: Card[]): Card[] {
 //   return pPrompt;
 // }
 
-export function betPrompt(pFund: number): number {
+export function betPrompt(pFund: number): number | "end" {
   while (true) {
-    const pPrompt = Number(prompt("Enter your bet: "));
-    if (pPrompt >= 0 && pPrompt <= pFund && !isNaN(pPrompt)) {
-      return pPrompt; // Exit the loop once a valid input is entered
+    const userInput = prompt("Enter your bet (or type 'end' to exit):");
+    if (userInput === "end") {
+      return "end";
     }
-    console.log("Please enter a valid amount");
+
+    const pPrompt = Number(userInput);
+
+    if (!isNaN(pPrompt) && pPrompt >= 0 && pPrompt <= pFund) {
+      return pPrompt;
+    }
+
+    console.log("Please enter a valid amount or type 'end' to exit");
   }
 }
 

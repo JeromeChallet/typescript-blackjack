@@ -7,7 +7,7 @@ import { betPrompt, dealHand, hit, handValue, showHands } from "./utils";
 let cardDeck = new Deck();
 let deckPos: number = 0;
 let pFund = 100;
-let pBet = 0;
+let pBet: number | "end";
 let pPot = 0;
 let pHand: Hand;
 let dHand: Hand;
@@ -21,11 +21,18 @@ console.log("deck1:", deck1);
 //console.log("deckPos A:", deck1[deckPos]);
 
 function app() {
-  console.log(`Player's fund: ${pFund}$`);
   do {
+    pPot = 0;
+    console.log(`Player's fund: ${pFund}$`);
     pBet = betPrompt(pFund);
-    pFund -= pBet;
-    pPot += pBet;
+    if (pBet === "end") {
+      console.log("Game Over");
+      break;
+    }
+    if (typeof pBet === "number") {
+      pFund -= pBet;
+      pPot += pBet;
+    }
     console.log(`Player's fund: ${pFund}$`);
     console.log(`Player's bet: ${pPot}$`);
     /////////////////FIRST DEAL PLAYER////////////////
@@ -38,25 +45,37 @@ function app() {
     dHand = handResult.hand;
     //dHandValue = handValue(dHand);
     deckPos = handResult.deckPos;
-    showHands(pHand, dHand);
     /////////////////ROUNDS////////////////
     while (true) {
+      pHandValue = handValue(pHand);
+      dHandValue = handValue(dHand);
+
+      if (pHandValue < 21) {
+        showHands(pHand, dHand, "hit");
+      } else {
+        showHands(pHand, dHand, "stand");
+        break;
+      }
+
       const pPrompt = prompt("hit or stand?: ");
+
       if (pPrompt === "hit") {
         handResult = hit(deck1, deckPos, pHand);
         pHand = handResult.hand;
         deckPos = handResult.deckPos;
-        showHands(pHand, dHand, "hit");
-      } else if (
-        pPrompt === "stand" ||
-        pHandValue === 21 ||
-        dHandValue === 21
-      ) {
+      } else if (pPrompt === "stand") {
         showHands(pHand, dHand, "stand");
-        return;
+        break;
       } else {
         console.log('please type "hit" or "stand" only');
       }
+    }
+
+    if (pHandValue > dHandValue && pHandValue < 22) {
+      console.log("u win");
+      pFund += pPot * 2;
+    } else {
+      console.log("u lose");
     }
   } while (pFund > -1);
 
