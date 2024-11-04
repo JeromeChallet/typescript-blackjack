@@ -14,11 +14,8 @@ let dHand: Hand;
 let pHandValue: number = 0;
 let dHandValue: number = 0;
 let handResult: DealCards;
-//console.log("cardDeck:", cardDeck);
 const deck1: Card[] = cardDeck.deckCreation();
 console.log("deck1:", deck1);
-//deck1[deckPos];
-//console.log("deckPos A:", deck1[deckPos]);
 
 function app() {
   do {
@@ -38,22 +35,21 @@ function app() {
     /////////////////FIRST DEAL PLAYER////////////////
     handResult = dealHand(deck1, deckPos);
     pHand = handResult.hand;
-    //pHandValue = handValue(pHand);
     deckPos = handResult.deckPos;
     /////////////////FIRST DEAL DEALER////////////////
     handResult = dealHand(deck1, deckPos);
     dHand = handResult.hand;
-    //dHandValue = handValue(dHand);
     deckPos = handResult.deckPos;
     /////////////////ROUNDS////////////////
-    while (true) {
+    let playerTurn = true;
+
+    while (playerTurn) {
       pHandValue = handValue(pHand);
       dHandValue = handValue(dHand);
 
       if (pHandValue < 21) {
         showHands(pHand, dHand, "hit");
       } else {
-        showHands(pHand, dHand, "stand");
         break;
       }
 
@@ -64,18 +60,29 @@ function app() {
         pHand = handResult.hand;
         deckPos = handResult.deckPos;
       } else if (pPrompt === "stand") {
-        showHands(pHand, dHand, "stand");
-        break;
+        playerTurn = false;
+        while (dHandValue < 17 && dHandValue < pHandValue) {
+          handResult = hit(deck1, deckPos, dHand);
+          dHand = handResult.hand;
+          deckPos = handResult.deckPos;
+          dHandValue = handValue(dHand);
+        }
       } else {
         console.log('please type "hit" or "stand" only');
       }
     }
 
-    if (pHandValue > dHandValue && pHandValue < 22) {
-      console.log("u win");
+    if ((pHandValue > dHandValue && pHandValue <= 21) || dHandValue > 21) {
+      showHands(pHand, dHand, "stand");
+      console.log("You win\n");
       pFund += pPot * 2;
+    } else if (pHandValue === dHandValue) {
+      showHands(pHand, dHand, "stand");
+      pFund += pBet;
+      console.log("Draw\n");
     } else {
-      console.log("u lose");
+      showHands(pHand, dHand, "stand");
+      console.log("You lose\n");
     }
   } while (pFund > -1);
 

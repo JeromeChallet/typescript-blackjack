@@ -96,14 +96,14 @@ export function showHands(pHand: Hand, dHand: Hand, stand?: string): void {
   }
   showPlayerHand += `(Total: ${pHandValue})\n`;
 
-  for (const card of dHand) {
-    if (stand === "stand") {
+  if (stand === "stand") {
+    for (const card of dHand) {
       showDealerHand += card.name + card.type + " ";
       dHandValue += card.value;
-    } else {
-      showDealerHand = dHand[0].name + dHand[0].type + "[hidden]";
-      dHandValue = dHand[0].value;
     }
+  } else {
+    showDealerHand += dHand[0].name + dHand[0].type + " [hidden]";
+    dHandValue = dHand[0].value;
   }
   showDealerHand += `(Total: ${dHandValue})`;
 
