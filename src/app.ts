@@ -85,7 +85,7 @@ function app() {
       console.log("You lose\n");
     }
   } while (pFund > -1);
-
+  console.log("game over");
   return;
 }
 
